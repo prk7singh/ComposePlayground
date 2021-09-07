@@ -6,9 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -44,9 +42,25 @@ fun Greeting(name: String) {
     val backgroundColor by animateColorAsState(if (isSelected) Color.Red else Color.Transparent)
 
     Text(text = "Hello $name!",
-        modifier = Modifier.padding(24.dp).background(color=backgroundColor).clickable(onClick = {isSelected = !isSelected}),
+        modifier = Modifier
+            .padding(5.dp)
+            .background(color = backgroundColor)
+            .clickable(onClick = { isSelected = !isSelected }),
         style = MaterialTheme.typography.body1
     )
+}
+
+@Composable
+fun GreetingLayout(name: String) {
+    Column() {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Greeting(name = name)
+            Button(onClick = { /*TODO*/ },modifier = Modifier.padding(5.dp).weight(1f,true)) {
+                Text(text = "OK")
+            }
+        }
+        Text(text = "This is some very big statement which could fill up a lot of space and span to multiple lines. ",Modifier.fillMaxHeight(fraction = 0.3f).padding(5.dp))
+    }
 }
 
 @Composable
@@ -70,7 +84,7 @@ fun Counter(){
 fun NameList(names: List<String>, modifier: Modifier){
     LazyColumn(modifier = modifier){
         items(items = names){ name->
-            Greeting(name = name)
+            GreetingLayout(name = name)
             Divider(color = Color.Black)
         }
     }
